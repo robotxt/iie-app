@@ -8,6 +8,7 @@ import (
 	"github/robotxt/iie-app/src/service"
 	"net/http"
 	"os"
+	"reflect"
 	"strings"
 )
 
@@ -37,16 +38,24 @@ func (m *Middleware) SecureApiRequest() func(http.Handler) http.Handler {
 			json.NewEncoder(w).Encode(r)
 			token := strings.TrimSpace(header)
 
-			logging.Info("secure handler middleware activated: ", token)
-
 			if token == "" {
 				w.WriteHeader(http.StatusForbidden)
 				json.NewEncoder(w).Encode("Missing HTTP_AUTHORIZATION Header")
 				return
 			}
 
-			// TODO check for public API
+			verified := false
 			if header == app_api_key {
+				// Public API will used public API KEY's
+				publicUrlsArray := reflect.ValueOf(PublicURLS)
+				for i := 0; i < publicUrlsArray.Len(); i++ {
+					if publicUrlsArray.Index(i).Interface() == r.URL.Path {
+						verified = true
+					}
+				}
+			}
+
+			if verified {
 				next.ServeHTTP(w, r)
 				return
 			}

@@ -15,6 +15,12 @@ type ApiV1 struct {
 	Firebase *repo.FirebaseApp
 }
 
+// PublicURLS using default key
+var PublicURLS = []string{
+	"/api/v1/login",
+	"/api/v1/registration",
+}
+
 func (a *ApiV1) apiv1Handler(method string, path string, f func(w http.ResponseWriter, r *http.Request)) {
 	r := a.Router.PathPrefix("/api/v1").Subrouter()
 	r.HandleFunc(path, f).Methods(method)
@@ -26,6 +32,7 @@ func (a *ApiV1) SetRouters() {
 	middleware := Middleware{Ctx: a.Ctx, Firebase: a.Firebase}
 	a.Router.Use(middleware.SecureApiRequest())
 
+	// API endpoints
 	a.apiv1Handler("GET", "/", HandleRequest(a.BaseAPI))
 	a.apiv1Handler("POST", "/registration", HandleRequest(a.RegistrationApi))
 	a.apiv1Handler("POST", "/login", HandleRequest(a.LoginApi))
