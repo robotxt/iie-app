@@ -2,12 +2,14 @@ package api
 
 import (
 	"encoding/json"
+	"github/robotxt/iie-app/src/logging"
+	"github/robotxt/iie-app/src/service"
 	"net/http"
 )
 
 type ItemData struct {
-	Email    string
-	Password string
+	Name        string
+	Description string
 }
 
 // CreateItemApi
@@ -21,6 +23,10 @@ func (api *ApiV1) CreateItemApi(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	defer r.Body.Close()
+
+	authUser := r.Context().Value(UserCtxKey("authUser")).(service.UserType)
+	logging.Info("authuser UID: ", authUser.UID)
+	logging.Info("authuser Email: ", authUser.Email)
 
 	respondJSON(w, http.StatusOK, &registrationResponse{
 		Message: "Hello World!",

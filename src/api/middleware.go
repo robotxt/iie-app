@@ -27,7 +27,7 @@ func HandleRequest(handler RequestHandlerFunction) http.HandlerFunc {
 	}
 }
 
-func (m *Middleware) SecureApiRequest(public bool) func(http.Handler) http.Handler {
+func (m *Middleware) SecureApiRequest() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
@@ -45,12 +45,11 @@ func (m *Middleware) SecureApiRequest(public bool) func(http.Handler) http.Handl
 				return
 			}
 
+			// TODO check for public API
 			if header == app_api_key {
 				next.ServeHTTP(w, r)
 				return
 			}
-
-			// TODO: Check token header is valid
 
 			decodedToken, err := m.Firebase.VerifyCustomToken(token)
 			if err != nil {
@@ -61,9 +60,12 @@ func (m *Middleware) SecureApiRequest(public bool) func(http.Handler) http.Handl
 
 			authUser := service.UserType{}
 			authUser.UID = decodedToken.UID
-			AuthUser, _ := authUser.GetUserByUID(m.Ctx)
+			fbUser, _ := authUser.GetUserByUID(m.Ctx)
+			authUser.Email = fbUser.Email
 
-			newCtx := context.WithValue(r.Context(), UserCtxKey("authUser"), *AuthUser)
+			logging.Info("loggedin user: ", authUser)
+
+			newCtx := context.WithValue(m.Ctx, UserCtxKey("authUser"), authUser)
 			next.ServeHTTP(w, r.WithContext(newCtx))
 		})
 	}

@@ -74,3 +74,9 @@ func (u *UserType) CreateUserProfile(ctx context.Context) (*firestore.WriteResul
 
 	return result, err
 }
+
+// CreateCustomToken firebase create custom token
+func (u *UserType) CreateCustomToken(ctx context.Context) (string, error) {
+	token, err := repo.FirebaseAuthClient.CustomToken(ctx, u.UID)
+	return token, err
+}

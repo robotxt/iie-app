@@ -1,0 +1,56 @@
+<html>
+
+<head>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.22.1/firebase-auth.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "AIzaSyBf3wZxbGRWQm6rhpUMJzNXBcYdnj5Hmo4",
+            authDomain: "iie-app-52841.firebaseapp.com",
+            databaseURL: "https://iie-app-52841-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "iie-app-52841",
+            storageBucket: "iie-app-52841.appspot.com",
+            messagingSenderId: "904833312812",
+            appId: "1:904833312812:web:ec2f2171e318af1b65c989"
+        };
+
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJmaXJlYmFzZS1hZG1pbnNkay02NXU1MEBpaWUtYXBwLTUyODQxLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwiYXVkIjoiaHR0cHM6Ly9pZGVudGl0eXRvb2xraXQuZ29vZ2xlYXBpcy5jb20vZ29vZ2xlLmlkZW50aXR5LmlkZW50aXR5dG9vbGtpdC52MS5JZGVudGl0eVRvb2xraXQiLCJleHAiOjE2MzUyNDAwMDIsImlhdCI6MTYzNTIzNjQwMiwic3ViIjoiZmlyZWJhc2UtYWRtaW5zZGstNjV1NTBAaWllLWFwcC01Mjg0MS5pYW0uZ3NlcnZpY2VhY2NvdW50LmNvbSIsInVpZCI6IjQ1NTg2NmQzLWExZmUtNGRhZC1iNGVhLTgyZjc0OTNhMGQzNiJ9.ZCFUuPn-sp_4T5irQjvBft6jfayWuHeiMtt9GDAwuJ72Tn_bZHoahr4BwQFo1A6GDKgLMEDmZaYhS0CnYvuKO_xeCPdOIGS_Cw7jSDU1kF97OwZHYMT-OSl2nYwBLWdhCF9JTFzNW05xQPPVxLZERyZSd6hsPDBMre_ganpbTL1tvC98aQ3er9blf5Q_QfGdLYDFhHLYc-FGjlz7EpzotGns-DTauuw7dhv7UoeFC3hAl4Tpz-cqdJEjUZPHQRyQMO0Xdmb3KmyngxPbFbMRbRfGYWYdiku06Rb8N0RWhF08UHN_2-MZANcWgrL2BZsS3psHZi04zRP7ClYENagpNQ"
+        firebase.auth().signInWithCustomToken(token).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ...
+        });
+    </script>
+
+</head>
+
+<body>
+    <script>
+
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                user.getIdToken(/* forceRefresh */ true).then(function (idToken) {
+                    console.log(idToken)
+                }).catch(function (error) {
+                    // Handle error
+                });
+            } else {
+                console.log("no user.")
+            }
+        });
+
+    </script>
+    <h1>wewew</h1>
+</body>
+
+</html>
