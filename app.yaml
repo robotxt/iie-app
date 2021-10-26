@@ -18,3 +18,4 @@ runtime: go116
 env_variables:
   GCLOUD_PROJECT_ID: iie-app-52841
   ENVIRONMENT: production
+  BASIC_API_KEY: Ps9aBbbjYgQ-LWh3gc.Eoudd6bx

@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github/robotxt/iie-app/src/logging"
 	"github/robotxt/iie-app/src/service"
 )
 
@@ -58,9 +57,7 @@ func (api *ApiV1) RegistrationApi(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	logging.Info("new user is created: ", newUser)
-
-	respondJSON(w, http.StatusOK, &registrationResponse{
-		Message: "Hello World!",
+	respondJSON(w, http.StatusCreated, &registrationResponse{
+		Message: "User successfully created.",
 	})
 }

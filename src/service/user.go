@@ -45,6 +45,11 @@ func (u *UserType) GetUserByEmail(ctx context.Context) (*auth.UserRecord, error)
 	return user, err
 }
 
+func (u *UserType) GetUserByUID(ctx context.Context) (*auth.UserRecord, error) {
+	user, err := repo.FirebaseAuthClient.GetUser(ctx, u.UID)
+	return user, err
+}
+
 func (u *UserType) HashPassword() []byte {
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 	if err != nil {
