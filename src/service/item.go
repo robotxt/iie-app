@@ -7,6 +7,8 @@ import (
 	"cloud.google.com/go/firestore"
 )
 
+var ItemCollection = MyCollections().item
+
 type ItemType struct {
 	UID         string
 	UserUID     string
@@ -16,7 +18,7 @@ type ItemType struct {
 }
 
 func (u *ItemType) CreateItem(ctx context.Context) (*firestore.WriteResult, error) {
-	result, err := repo.FirestoreClient.Collection("item").Doc(u.UserUID).Set(ctx, map[string]interface{}{
+	result, err := repo.FirestoreClient.Collection(ItemCollection).Doc(u.UserUID).Set(ctx, map[string]interface{}{
 		"name":        u.Name,
 		"description": u.Description,
 		"bucket":      u.Bucket,

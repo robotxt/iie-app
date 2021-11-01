@@ -13,6 +13,8 @@ import (
 	auth "firebase.google.com/go/v4/auth"
 )
 
+var userProfileCollection = MyCollections().profile
+
 type UserType struct {
 	UID      string
 	Email    string
@@ -65,7 +67,7 @@ func (u *UserType) CreateUserProfile(ctx context.Context) (*firestore.WriteResul
 		timezone = u.Timezone
 	}
 
-	result, err := repo.FirestoreClient.Collection("profile").Doc(u.UID).Set(ctx, map[string]interface{}{
+	result, err := repo.FirestoreClient.Collection(userProfileCollection).Doc(u.UID).Set(ctx, map[string]interface{}{
 		"country":  u.Country,
 		"timezone": timezone,
 		"age":      u.Age,

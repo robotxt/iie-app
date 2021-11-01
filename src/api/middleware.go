@@ -32,20 +32,21 @@ func (m *Middleware) SecureApiRequest() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
-			var app_api_key = os.Getenv("BASIC_API_KEY")
-			var header = r.Header.Get("HTTP_AUTHORIZATION")
+			var apiKey = os.Getenv("BASIC_API_KEY")
+			var authHeader = os.Getenv("AUTH_HEADER")
 
+			var authToken = r.Header.Get(authHeader)
 			json.NewEncoder(w).Encode(r)
-			token := strings.TrimSpace(header)
+			token := strings.TrimSpace(authToken)
 
 			if token == "" {
 				w.WriteHeader(http.StatusForbidden)
-				json.NewEncoder(w).Encode("Missing HTTP_AUTHORIZATION Header")
+				json.NewEncoder(w).Encode("Missing Authentication Header.")
 				return
 			}
 
 			verified := false
-			if header == app_api_key {
+			if authToken == apiKey {
 				// Public API will used public API KEY's
 				publicUrlsArray := reflect.ValueOf(PublicURLS)
 				for i := 0; i < publicUrlsArray.Len(); i++ {
