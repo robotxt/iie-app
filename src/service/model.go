@@ -12,3 +12,9 @@ func MyCollections() *Collection {
 
 	return &c
 }
+
+var Buckets = []string{
+	"income",
+	"investment",
+	"expense",
+}

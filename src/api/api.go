@@ -39,4 +39,5 @@ func (a *ApiV1) SetRouters() {
 
 	// secure API - Not public using JWT auth
 	a.apiv1Handler("POST", "/item", HandleRequest(a.CreateItemApi))
+	a.apiv1Handler("GET", "/fetch/items", HandleRequest(a.FetchItems))
 }
