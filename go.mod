@@ -5,9 +5,11 @@ go 1.16
 require (
 	cloud.google.com/go/firestore v1.6.0
 	firebase.google.com/go/v4 v4.6.0
+	github.com/githubnemo/CompileDaemon v1.4.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/google/uuid v1.3.0
 	github.com/gorilla/mux v1.8.0
+	github.com/jinzhu/gorm v1.9.16
 	github.com/sirupsen/logrus v1.8.1
 	golang.org/x/crypto v0.0.0-20210921155107-089bfa567519
 	golang.org/x/net v0.0.0-20211020060615-d418f374d309 // indirect

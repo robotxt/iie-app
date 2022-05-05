@@ -4,13 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"github/robotxt/iie-app/src/logging"
-	repo "github/robotxt/iie-app/src/repo/firebase"
+	"github/robotxt/iie-app/src/repo"
 
 	"cloud.google.com/go/firestore"
 	"google.golang.org/api/iterator"
 )
 
 var ItemCollection = MyCollections().item
+var Repo = repo.Repository{}
 
 type ItemType struct {
 	UID         string
@@ -23,7 +24,7 @@ type ItemType struct {
 }
 
 func (u *ItemType) CreateItem(ctx context.Context) (*firestore.DocumentRef, error) {
-	doc, _, err := repo.FirestoreClient.Collection(ItemCollection).Add(ctx, map[string]interface{}{
+	doc, _, err := Repo.Firebase.FirestoreClient.Collection(ItemCollection).Add(ctx, map[string]interface{}{
 		"name":        u.Name,
 		"description": u.Description,
 		"bucket":      u.Bucket,
@@ -37,7 +38,7 @@ func (u *ItemType) CreateItem(ctx context.Context) (*firestore.DocumentRef, erro
 }
 
 func (u *ItemType) GetUserItems(ctx context.Context) ([]ItemType, error) {
-	iter := repo.FirestoreClient.Collection(ItemCollection).Where("userUID", "==", u.UserUID).Documents(ctx)
+	iter := Repo.Firebase.FirestoreClient.Collection(ItemCollection).Where("userUID", "==", u.UserUID).Documents(ctx)
 
 	allItems := []ItemType{}
 

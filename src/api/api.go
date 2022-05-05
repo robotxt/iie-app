@@ -17,6 +17,7 @@ type ApiV1 struct {
 
 // PublicURLS using default key
 var PublicURLS = []string{
+	"/api/v1/hello",
 	"/api/v1/login",
 	"/api/v1/registration",
 }
@@ -33,7 +34,7 @@ func (a *ApiV1) SetRouters() {
 	a.Router.Use(middleware.SecureApiRequest())
 
 	// API endpoints
-	a.apiv1Handler("GET", "/", HandleRequest(a.BaseAPI))
+	a.apiv1Handler("GET", "/hello", HandleRequest(a.BaseAPI))
 	a.apiv1Handler("POST", "/registration", HandleRequest(a.RegistrationApi))
 	a.apiv1Handler("POST", "/login", HandleRequest(a.LoginApi))
 

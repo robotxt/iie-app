@@ -8,3 +8,15 @@ services:
       - .:/go/src/app
     ports:
       [9090:9090]
+    depends_on:
+      - postgresdb
+  postgresdb:
+    image: postgres:12.5-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: rootpassword
+      POSTGRES_DB: iieapp
+
